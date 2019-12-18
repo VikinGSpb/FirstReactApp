@@ -1,5 +1,8 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { Component, Fragment } from 'react';
+import Form from './components/form';
+import FormButton from './components/formButton';
+import Catalog from './components/catalog';
+/*import logo from './logo.svg';
 import './App.css';
 
 function App() {
@@ -21,6 +24,17 @@ function App() {
       </header>
     </div>
   );
+}*/
+
+class App extends Component {
+  render() {
+    return (
+      <Fragment>
+        <FormButton>{<Form />}</FormButton>
+        <Catalog />
+      </Fragment>
+    );
+  }
 }
 
 export default App;
