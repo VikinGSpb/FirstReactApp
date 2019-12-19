@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react';
+//import Checkbox from './checkbox';
+import ListItem from './listItem';
 
 const PATH = 'https://api.punkapi.com/v2/beers';
 
@@ -71,13 +73,7 @@ class Catalog extends Component {
         <button onClick={this.sortCatalogByIbu}>Sort By ibu</button>
         <ul>
           {result.map(({ id, name, description, abv, ibu, image_url }) => 
-            <li key={id} style={{listStyleType: 'none'}}>
-              <div style={{width: '100px', height: '200px', background: `url(${image_url}) no-repeat`, backgroundSize: 'contain'}}></div>
-              <p>name: {name}</p>
-              <p>description: {description}</p>
-              <p>abv: {abv}</p>
-              <p>ibu: {ibu}</p>
-            </li>
+            <ListItem key={id} name={name} description={description} abv={abv} ibu={ibu} image_url={image_url} />
           )}
         </ul>
       </Fragment>
