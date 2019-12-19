@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react';
 //import Checkbox from './checkbox';
-import ListItem from './listItem';
+import { ListItem } from './listItem';
 
 const PATH = 'https://api.punkapi.com/v2/beers';
 
@@ -73,7 +73,7 @@ class Catalog extends Component {
         <button onClick={this.sortCatalogByIbu}>Sort By ibu</button>
         <ul>
           {result.map(({ id, name, description, abv, ibu, image_url }) => 
-            <ListItem key={id} name={name} description={description} abv={abv} ibu={ibu} image_url={image_url} />
+            <ListItem needCheck={true} key={id} id={id} name={name} description={description} abv={abv} ibu={ibu} image_url={image_url} />
           )}
         </ul>
       </Fragment>
