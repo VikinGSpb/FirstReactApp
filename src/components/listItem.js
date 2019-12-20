@@ -1,36 +1,58 @@
 import React, { Component } from 'react';
 
-export let idsArr = [];
+class ListItem extends Component {
+  //_isMounted = false;
 
-export class ListItem extends Component {
   state = {
     isChecked: false,
   }
 
   componentDidMount() {
+    //this._isMounted = true;
     this.ChangeInput();
   }
 
+/*  deleteEl = () => {
+    const { element } = this.props;
+    const { basketArray, resultArray, searchArray } = this.props;
+    let idx;
+    basketArray.forEach((x, i) => {
+      if(x.id === element.id) {
+        idx = i;
+      }
+    });
+    basketArray.splice(idx, 1);
+    console.log(basketArray);
+  }*/
+
   ChangeInput = () => {
-    const { id, name, description, abv, ibu, image_url } = this.props;
-    const { isChecked } = this.state;
+    const { basketArray, resultArray, searchArray } = this.props;
+    const { element } = this.props;
+    let { isChecked } = this.state;
     isChecked ? this.setState({isChecked: false}) : this.setState({isChecked: true});
     if(isChecked) {
-      idsArr.push(
-        <li key={id} style={{listStyleType: 'none'}}>
-        <div style={{width: '100px', height: '200px', background: `url(${image_url}) no-repeat`, backgroundSize: 'contain'}}></div>
-        <p>name: {name}</p>
-        <p>description: {description}</p>
-        <p>abv: {abv}</p>
-        <p>ibu: {ibu}</p>
-        </li>)
+      basketArray.push(element);
+      console.log(basketArray);
+    } else {
+      let idx;
+      basketArray.forEach((x, i) => {
+        if(x.id === element.id) {
+          idx = i;
+        }
+      });
+      basketArray.splice(idx, 1);
+      console.log(basketArray);
     }
   }
 
+  /*componentWillUnmount() {
+    this._isMounted = false;
+  }*/
+
   render() {
-    const { name, description, abv, ibu, image_url } = this.props;
-    const { needCheck } = this.props;
-    if(needCheck === true) 
+    const { inBasket, name, description, abv, ibu, image_url } = this.props;
+    const { children } = this.props;
+    if(inBasket === false)
       return (
         <li style={{listStyleType: 'none'}}>
           <div style={{width: '100px', height: '200px', background: `url(${image_url}) no-repeat`, backgroundSize: 'contain'}}></div>
@@ -41,7 +63,7 @@ export class ListItem extends Component {
           <input type="checkbox" onChange={this.ChangeInput} />
         </li>
       );
-    else 
+    if(inBasket === true)
       return (
         <li style={{listStyleType: 'none'}}>
           <div style={{width: '100px', height: '200px', background: `url(${image_url}) no-repeat`, backgroundSize: 'contain'}}></div>
@@ -49,8 +71,12 @@ export class ListItem extends Component {
           <p>description: {description}</p>
           <p>abv: {abv}</p>
           <p>ibu: {ibu}</p>
-        </li> );
+          {children}
+        </li>
+      );
   }
 }
 
-//export default ListItem;
+//<button onClick={this.deleteEl}>DELETE</button>
+
+export default ListItem;

@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
+import resultArray from './dataArrays/resultArray';
+import searchArray from './dataArrays/searchArray';
+import basketArray from './dataArrays/basketArray';
+
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Home from './components/home';
@@ -12,8 +16,8 @@ ReactDOM.render((
   <BrowserRouter>
     <App>
       <Switch>
-        <Route exact path='/' component={ Home }/>
-        <Route path='/basket' component={ Basket }/>
+        <Route exact path='/' render={()=><Home resultArray={resultArray} searchArray={searchArray} basketArray={basketArray}/>} />
+        <Route path='/basket' render={()=><Basket basketArray={basketArray}/>} />
       </Switch>
     </App>
   </BrowserRouter>),

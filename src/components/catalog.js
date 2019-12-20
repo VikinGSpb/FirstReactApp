@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react';
-//import Checkbox from './checkbox';
-import { ListItem } from './listItem';
+import ListItem from './listItem';
 
 const PATH = 'https://api.punkapi.com/v2/beers';
 
@@ -10,14 +9,13 @@ class Catalog extends Component {
   }
 
   componentDidMount() {
+    let {resultArray} = this.props;
     fetch(`${PATH}`)
     .then(res => res.json())
-    .then(result => this.setCatalog(result))
+    .then(result => {resultArray = result; this.setState({result: resultArray});})/*ResultArray.CopyArr(result);
+      console.log(ResultArray,ResultArray.ReturnState());
+      this.setState({result: ResultArray.ReturnState()})})*/
     .catch(e => console.log(e));
-  }
-
-  setCatalog = result => {
-    this.setState({ result })
   }
 
   sortCatalogByName = () => {
@@ -64,6 +62,7 @@ class Catalog extends Component {
 
   render() {
     const { result } = this.state;
+    const {basketArray, resultArray, searchArray} = this.props;
 
     return (
       <Fragment>
@@ -72,8 +71,9 @@ class Catalog extends Component {
         <button onClick={this.sortCatalogByAbv}>Sort By abv</button>
         <button onClick={this.sortCatalogByIbu}>Sort By ibu</button>
         <ul>
-          {result.map(({ id, name, description, abv, ibu, image_url }) => 
-            <ListItem needCheck={true} key={id} id={id} name={name} description={description} abv={abv} ibu={ibu} image_url={image_url} />
+          {result.map((el) =>
+            <ListItem inBasket={false} element={el} key={el.id} resultArray={resultArray} searchArray={searchArray} basketArray={basketArray} 
+              id={el.id} name={el.name} description={el.description} abv={el.abv} ibu={el.ibu} image_url={el.image_url} />
           )}
         </ul>
       </Fragment>
