@@ -8,17 +8,45 @@ class Catalog extends Component {
     result: [],
     searchResult: [],
     inputText: '',
+    page: 0,
   }
 
   componentDidMount() {
+    const {page} = this.state;
     let {resultArray} = this.props;
-    fetch(`${PATH}`)
+    this.fetchData(page, resultArray);
+    //fetch(`${PATH}?page=${page+1}`)
+    //.then(res => res.json())
+    //.then(result => {resultArray = result; this.setState({result: resultArray}); console.log(result);})/*ResultArray.CopyArr(result);
+    //  console.log(ResultArray,ResultArray.ReturnState());
+    //  this.setState({result: ResultArray.ReturnState()})})*/
+    //.catch(e => console.log(e));
+    //this.handleChange();
+  }
+
+  fetchData = (page, resultArray) => {
+    fetch(`${PATH}?page=${page+1}`)
     .then(res => res.json())
-    .then(result => {resultArray = result; this.setState({result: resultArray});})/*ResultArray.CopyArr(result);
+    .then(result => {resultArray = result; this.setState({result: resultArray}); console.log(result);})/*ResultArray.CopyArr(result);
       console.log(ResultArray,ResultArray.ReturnState());
       this.setState({result: ResultArray.ReturnState()})})*/
     .catch(e => console.log(e));
-    this.handleChange();
+  }
+
+  prevPage = () => {
+    const {page} = this.state;
+    this.setState({page: page - 1});
+    console.log(page);
+    let {resultArray} = this.props;
+    this.fetchData(page, resultArray);
+  }
+
+  nextPage = () => {
+    const {page} = this.state;
+    this.setState({page: page + 1});
+    console.log(page);
+    let {resultArray} = this.props;
+    this.fetchData(page, resultArray);
   }
 
  /* componentWillUnmount() {
@@ -29,7 +57,6 @@ class Catalog extends Component {
     this.setState({
       inputText: this.inputRef.current.value
     });
-
     /*const { result } = this.state;
     const { inputText } = this.state;
     const { searchResult } = this.state;
@@ -48,7 +75,7 @@ class Catalog extends Component {
   }
 
   handleClick = () => {
-    const { result } = this.state;
+    /*const { result } = this.state;
     const { inputText } = this.state;
     const { searchResult } = this.state;
     let interArr = [];
@@ -58,7 +85,16 @@ class Catalog extends Component {
       }
     })
     this.setState({searchResult: interArr});
-    console.log(searchResult,interArr,inputText);
+    console.log(searchResult,interArr,inputText);*/
+    const {inputText} = this.state;
+    const { searchResult } = this.state;
+    
+    fetch(`${PATH}?beer_name=${inputText}`)
+    .then(res => res.json())
+    .then(result => this.setState({searchResult: result}))/*ResultArray.CopyArr(result);
+      console.log(ResultArray,ResultArray.ReturnState());
+      this.setState({result: ResultArray.ReturnState()})})*/
+    .catch(e => console.log(e));
   }
 
   sortCatalogByName = () => {
@@ -139,7 +175,9 @@ class Catalog extends Component {
           <label>
             Search by name:<input ref={this.inputRef} onChange={this.handleChange} type="text" />
           </label>
-          <button onClick={this.handleClick}>SEARCH</button>
+          <button onClick={this.handleClick}>SEARCH</button><br/>
+          <button onClick={this.prevPage}>Prev</button>
+          <button onClick={this.nextPage}>Next</button>
           <ul> 
             {result.map((el) =>
               <ListItem inBasket={false} element={el} key={el.id} resultArray={resultArray} searchArray={searchArray} basketArray={basketArray} 
