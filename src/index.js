@@ -12,6 +12,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './components/home';
 import Basket from './components/basket';
 
+
 ReactDOM.render((
   <BrowserRouter>
     <App>

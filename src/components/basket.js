@@ -4,18 +4,18 @@ import ListItem from './listItem';
 
 class Basket extends Component {
   state = {
-    result: this.props.basketArray,
+    result: [],//this.props.basketArray,
   }
 
-  /*componentDidMount() {
+  componentDidMount() {
     const {basketArray} = this.props;
-    this.setState( {result: basketArray} );
-  }*/
+    this.setState( {result: basketArray.slice(0)} );
+  }
 
   deleteItem = (id) => {
     const {basketArray, resultArray, searchArray} = this.props;
     const {result} = this.state;
-    console.log(result);
+    console.log(resultArray);
     let interArr = result;
     let idx;
     result.forEach((x, i) => {
@@ -26,7 +26,9 @@ class Basket extends Component {
     console.log(id,idx,basketArray,interArr,result,this.state.result );
     interArr.splice(idx, 1);
     this.setState({result: interArr});
-    console.log(interArr, basketArray, result, this.state.result);
+    basketArray.splice(0, basketArray.length);
+    interArr.forEach(x=>basketArray.push(x));
+    console.log(interArr, basketArray, result, this.state.result, basketArray);
   }
 
   render() {

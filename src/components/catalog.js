@@ -27,7 +27,7 @@ class Catalog extends Component {
   fetchData = (page, resultArray) => {
     fetch(`${PATH}?page=${page+1}`)
     .then(res => res.json())
-    .then(result => {resultArray = result; this.setState({result: resultArray}); console.log(result);})/*ResultArray.CopyArr(result);
+    .then(result => {resultArray.splice(0,resultArray.length); result.forEach(x=>resultArray.push(x)); this.setState({result: resultArray}); console.log(resultArray,this.state.result);})/*ResultArray.CopyArr(result);
       console.log(ResultArray,ResultArray.ReturnState());
       this.setState({result: ResultArray.ReturnState()})})*/
     .catch(e => console.log(e));
@@ -91,7 +91,7 @@ class Catalog extends Component {
     
     fetch(`${PATH}?beer_name=${inputText}`)
     .then(res => res.json())
-    .then(result => this.setState({searchResult: result}))/*ResultArray.CopyArr(result);
+    .then(result => this.setState({searchResult: result.slice(0)}))/*ResultArray.CopyArr(result);
       console.log(ResultArray,ResultArray.ReturnState());
       this.setState({result: ResultArray.ReturnState()})})*/
     .catch(e => console.log(e));
