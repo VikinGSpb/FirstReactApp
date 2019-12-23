@@ -1,7 +1,3 @@
-import {setNewHomeState, setNewClickedCheckboxes, setNewBasketState, addItemToHomeState, addItemToClickedCheckboxes, 
-  addItemToBasketState, removeItemFromHomeState, removeItemFromClickedCheckboxes, removeItemFromBasketState} 
-  from '../actions/basicActions';
-
 const reducer = (state, action) => {
   let newObj = Object.assign({}, state);
   let idx;
@@ -24,6 +20,10 @@ const reducer = (state, action) => {
       newObj.basketState.forEach((item, index) => {if(item.id === action.item.id) idx = index;});
       newObj.basketState.splice(idx, 1);
       break;
+    case "CHANGE_SEARCH_TEXT" : newObj.searchText = action.text; break;
+    case "INCREMENT_PAGE" : if(newObj.page < 3) newObj.page = newObj.page + 1; break;
+    case "DECREMENT_PAGE" : if(newObj.page > 0) newObj.page = newObj.page - 1; break;
+    case "CHANGE_PAGE" : newObj.page = action.page; break;
     default: return state;
   }
   return newObj;

@@ -33,3 +33,19 @@ export function removeItemFromClickedCheckboxes(item) {
 export function removeItemFromBasketState(item) {
   return {type: 'REMOVE_ITEM_FROM_BASKET_STATE', item: item};
 }
+
+export function changeSearchText(text) {
+  return {type: 'CHANGE_SEARCH_TEXT', text: text};
+}
+
+export function incPage(page) {
+  return {type: 'INCREMENT_PAGE', page: page};
+}
+
+export function decPage(page) {
+  return {type: 'DECREMENT_PAGE', page: page};
+}
+
+export function changePage(page) {
+  return {type: 'CHANGE_PAGE', page: page};
+}

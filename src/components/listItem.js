@@ -30,15 +30,15 @@ class ListItem extends Component {
   }*/
 
   ChangeInput = () => {
-    const { basketArray, resultArray, searchArray } = this.props;
+    //const { basketArray, resultArray, searchArray } = this.props;
     const { element } = this.props;
     let { isChecked } = this.state;
     //isChecked ? this.setState({isChecked: false}) : this.setState({isChecked: true});
     if(isChecked === false) {
       this.setState({isChecked: true});
       store.dispatch(addItemToClickedCheckboxes(element));
-      basketArray.push(element);
-      console.log(basketArray,store.getState());
+      //basketArray.push(element);
+      console.log(store.getState());
     } else if(isChecked === true) {
       this.setState({isChecked: false});
       //let idx;
@@ -50,7 +50,7 @@ class ListItem extends Component {
         }
       });
       //basketArray.splice(idx, 1);
-      console.log(basketArray,store.getState());
+      console.log(store.getState());
     }
   }
 

@@ -1,63 +1,138 @@
 import React, { Component, Fragment } from 'react';
 import ListItem from './listItem';
 import store from '../store';
+import { connect } from 'react-redux';
+import './catalog.css';
 
-import {setNewHomeState, setNewClickedCheckboxes, setNewBasketState, addItemToHomeState, addItemToClickedCheckboxes, 
-  addItemToBasketState, removeItemFromHomeState, removeItemFromClickedCheckboxes, removeItemFromBasketState}
-  from '../actions/basicActions';
+import { setNewHomeState, setNewClickedCheckboxes, setNewBasketState, addItemToHomeState, addItemToClickedCheckboxes, 
+  addItemToBasketState, removeItemFromHomeState, removeItemFromClickedCheckboxes, removeItemFromBasketState, 
+  changeSearchText, incPage, decPage, changePage } from '../actions/basicActions';
+import reducer from '../reducers/reducer';
+
+import Pagination from './pagination';
 
 const PATH = 'https://api.punkapi.com/v2/beers';
+let active = 1;
 
 class Catalog extends Component {
-  fetchData = (page, resultArray) => {
-    if(resultArray)
+
+  fetchData = (page) => {//, resultArray) => {
+    /*if(resultArray)
     fetch(`${PATH}?page=${page+1}`)
     .then(res => res.json())
     .then(result => {resultArray.splice(0,resultArray.length); result.forEach(x=>resultArray.push(x)); 
       this.setState({result: resultArray}); store.dispatch(setNewHomeState(result)); console.log(resultArray,this.state.result,store.getState());})
     .catch(e => console.log(e));
-    else 
+    else */
     fetch(`${PATH}?page=${page+1}`)
     .then(res => res.json())
-    .then(result => {this.setState({result: result}); store.dispatch(setNewHomeState(result)); 
-      console.log(resultArray,this.state.result,store.getState());}).catch(e => console.log(e));
+    .then(result => {//this.setState({result: result}); 
+      store.dispatch(setNewHomeState(result)); store.dispatch(changePage(page));console.log(store.getState(),this.props.searchText);})
+    .catch(e => console.log(e));
   }
 
-  state = {
-    result: this.fetchData(0), //[],
+  /*state = {
+    result: [],
     searchResult: [],
-    inputText: '',
+    inputText: store.getState().searchText,//this.props.searchText,//'',
     page: 0,
+  }*/
+
+  /*getTextFromStore(){
+    return store.getState().searchText;
   }
 
-  componentDidMount() {
-    const {page} = this.state;
-    let {resultArray} = this.props;
-    this.fetchData(page, resultArray);
-  }
+  updateTextFromStore = () => {
+    const currentState = this.getTextFromStore();
+    
+    if (this.state.inputText !== currentState) {
+      this.setState({inputText: currentState});
+    }
+  }*/
 
-  prevPage = () => {
-    const {page} = this.state;
-    if(page > 0) {
-      this.setState({page: page - 1});
-      console.log(page);
-      let {resultArray} = this.props;
-      this.fetchData(page, resultArray);
+  inputRef = React.createRef();
+  firstPage = React.createRef();
+  secondPage = React.createRef();
+  thirdPage = React.createRef();
+  fourthPage = React.createRef();
+  pages = React.createRef();
+
+  clickPages = (e) => {
+    switch(e.target.getAttribute('data-name')) {
+      case '1': 
+        this.fetchData(0); 
+        active = 1;
+        break;
+      case '2': 
+        this.fetchData(1); 
+        active = 2;
+        break;
+      case '3': 
+        this.fetchData(2); 
+        active = 3;
+        break;
+      case '4': 
+        this.fetchData(3); 
+        active = 4;
+        break;
+      default: break;
     }
   }
 
+  componentDidMount() {
+    //this.unsubscribeStore = store.subscribe(this.updateStateFromStore);
+    //const unsubscribe = store.subscribe(() => console.log(store.getState()));
+    store.dispatch(changeSearchText(this.inputRef.current.value));
+    //const {page} = this.state;
+    const {page} = this.props;
+    //let {resultArray} = this.props;
+    this.fetchData(page);//, resultArray);
+    /*this.setState({
+      inputText: store.getState().searchText//this.inputRef.current.value
+    });*/
+    //const {inputText} = this.state;
+    const {searchText} = this.props;
+    //if(inputText !== '') {
+    if(searchText !== '') {
+      fetch(`${PATH}?beer_name=${searchText}`)//inputText}`)
+      .then(res => res.json())
+      .then(result => {//this.setState({result: result.slice(0)}); 
+        store.dispatch(setNewHomeState(result)); console.log(store.getState());})
+      .catch(e => console.log(e));
+    } else this.fetchData(page);
+    //unsubscribe();
+  }
+
+ /* componentWillUnmount() {
+    this.unsubscribeStore();
+  }*/
+
+  prevPage = () => {
+    const {page} = this.props;//state;
+    //if(page > 0) {
+      //this.setState({page: page - 1});
+      //console.log(page);
+      store.dispatch(decPage(page));
+      //let {resultArray} = this.props;
+      this.fetchData(store.getState().page);//, resultArray);
+    //}
+    active -= 1;
+  }
+
   nextPage = () => {
-    const {page} = this.state;
-    this.setState({page: page + 1});
-    console.log(page);
-    let {resultArray} = this.props;
-    this.fetchData(page, resultArray);
+    const {page} = this.props;//state;
+    //this.setState({page: page + 1});
+    //console.log(page);
+    //let {resultArray} = this.props;
+    store.dispatch(incPage(page));
+    this.fetchData(store.getState().page);//, resultArray);
+    active += 1;
   }
 
   handleChange = () => {
-    this.setState({
+    /*this.setState({
       inputText: this.inputRef.current.value
-    });
+    });*/
     /*const { result } = this.state;
     const { inputText } = this.state;
     const { searchResult } = this.state;
@@ -73,6 +148,18 @@ class Catalog extends Component {
       }
     })
     this.setState({searchResult: interArr});*/
+    store.dispatch(changeSearchText(this.inputRef.current.value));
+    /*this.setState({
+      inputText: store.getState().searchText//this.inputRef.current.value
+    });*/
+    const {searchText, page} = this.props;//{inputText, page} = this.state;
+    if(searchText !== '') {//inputText !== '') {
+      fetch(`${PATH}?beer_name=${searchText}`)//inputText}`)
+      .then(res => res.json())
+      .then(result => {//this.setState({result: result.slice(0)}); 
+        store.dispatch(setNewHomeState(result)); console.log(store.getState());})
+      .catch(e => console.log(e));
+    } else this.fetchData(page);
   }
 
   handleClick = () => {
@@ -87,20 +174,26 @@ class Catalog extends Component {
     })
     this.setState({searchResult: interArr});
     console.log(searchResult,interArr,inputText);*/
-    const {inputText, page} = this.state;
-    const { searchResult, resultArray } = this.state;
-    if(inputText !== '') {
-    fetch(`${PATH}?beer_name=${inputText}`)
+    //const {inputText, page} = this.state;
+    const {searchText, page} = this.props;
+    //const { searchResult, resultArray } = this.state;
+    store.dispatch(changeSearchText(this.inputRef.current.value));
+    /*this.setState({
+      inputText: store.getState().searchText//this.inputRef.current.value
+    });*/
+    if(searchText !== '') {//inputText !== '') {
+    fetch(`${PATH}?beer_name=${store.getState().searchText}`)//inputText}`)
     .then(res => res.json())
-    .then(result => {this.setState({searchResult: result.slice(0)}); store.dispatch(setNewHomeState(result)); 
-      console.log(store.getState());})
+    .then(result => {//this.setState({searchResult: result.slice(0)}); 
+    store.dispatch(setNewHomeState(result)); console.log(store.getState());})
     .catch(e => console.log(e));
-    } else this.fetchData(page, resultArray);
+    } else this.fetchData(page);//, resultArray);
   }
 
   sortCatalogByName = () => {
-    const { result } = this.state;
-    result.sort((a, b)=>{
+    //const { result } = this.state;
+    const { homeState } = this.props;
+    /*result*/homeState.sort((a, b)=>{
       if (a.name > b.name) {
         return 1;
       }
@@ -109,14 +202,15 @@ class Catalog extends Component {
       }
       return 0;  
     });
-    this.setState({ result });
-    store.dispatch(setNewHomeState(result));
+    //this.setState({ result });
+    store.dispatch(setNewHomeState(homeState));//result));
     console.log(store.getState());
   }
 
   sortCatalogByAbv = () => {
-    const { result } = this.state;
-    result.sort((a, b)=>{
+    //const { result } = this.state;
+    const { homeState } = this.props;
+    /*result*/homeState.sort((a, b)=>{
       if (a.abv > b.abv) {
         return 1;
       }
@@ -125,14 +219,15 @@ class Catalog extends Component {
       }
       return 0;  
     });
-    this.setState({ result });
-    store.dispatch(setNewHomeState(result));
+    //this.setState({ result });
+    store.dispatch(setNewHomeState(homeState));//result));
     console.log(store.getState());
   }
 
   sortCatalogByIbu = () => {
-    const { result } = this.state;
-    result.sort((a, b)=>{
+    //const { result } = this.state;
+    const { homeState } = this.props;
+    /*result*/homeState.sort((a, b)=>{
       if (a.ibu > b.ibu) {
         return 1;
       }
@@ -141,17 +236,20 @@ class Catalog extends Component {
       }
       return 0;  
     });
-    this.setState({ result });
-    store.dispatch(setNewHomeState(result));
+    //this.setState({ result });
+    store.dispatch(setNewHomeState(homeState));//result));
     console.log(store.getState());
   }
 
-  inputRef = React.createRef();
+  pageClick = () => {
+    console.log('aaa');
+  }
 
   render() {
-    const { result } = this.state;
-    const {basketArray, resultArray, searchArray} = this.props;
-    const { searchResult } = this.state;
+    console.log('props - ' + this.props.searchText);
+    //const { result } = this.state;
+    //const {basketArray, resultArray, searchArray} = this.props;
+    //const { searchResult } = this.state;
 
     /*if(searchResult.length !== 0) {
     return (
@@ -209,13 +307,14 @@ class Catalog extends Component {
         </label>
         <button onClick={this.handleClick}>SEARCH</button><br/>
         <button onClick={this.prevPage}>Prev</button>
+        <Pagination active={`${active}`} ref={this.pages} onClick={this.clickPages} />
         <button onClick={this.nextPage}>Next</button>
         <ul> 
           {store.getState().homeState.map((el) => {
             let checked = false; 
             store.getState().clickedCheckboxes.forEach((checkbox) => {if(checkbox.id === el.id) checked = true;})
-            return <ListItem Checked={checked} inBasket={false} element={el} key={el.id} resultArray={resultArray} searchArray={searchArray} 
-            basketArray={basketArray} id={el.id} name={el.name} description={el.description} abv={el.abv} 
+            return <ListItem Checked={checked} inBasket={false} element={el} key={el.id} 
+             id={el.id} name={el.name} description={el.description} abv={el.abv} 
             ibu={el.ibu} image_url={el.image_url} /> }
           )}
         </ul>
@@ -223,5 +322,23 @@ class Catalog extends Component {
     );
   }
 }
+// resultArray={resultArray} searchArray={searchArray} basketArray={basketArray}
+//export default Catalog;
 
-export default Catalog;
+const mapStateToProps = (state) => {
+  return {
+    searchText: state.searchText,
+    page: state.page,
+    homeState: state.homeState,
+  }
+}
+
+export default connect(mapStateToProps)(Catalog);
+
+/*function mapStateToProps(state, ownProps) {
+  return {
+    searchText: state.searchText
+  };
+}
+
+export default connect(mapStateToProps)(Catalog);*/
