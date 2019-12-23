@@ -1,11 +1,30 @@
 import React, { Component, Fragment } from 'react';
 import ListItem from './listItem';
+import store from '../store';
+
+import {setNewHomeState, setNewClickedCheckboxes, setNewBasketState, addItemToHomeState, addItemToClickedCheckboxes, 
+  addItemToBasketState, removeItemFromHomeState, removeItemFromClickedCheckboxes, removeItemFromBasketState}
+  from '../actions/basicActions';
 
 const PATH = 'https://api.punkapi.com/v2/beers';
 
 class Catalog extends Component {
+  fetchData = (page, resultArray) => {
+    if(resultArray)
+    fetch(`${PATH}?page=${page+1}`)
+    .then(res => res.json())
+    .then(result => {resultArray.splice(0,resultArray.length); result.forEach(x=>resultArray.push(x)); 
+      this.setState({result: resultArray}); store.dispatch(setNewHomeState(result)); console.log(resultArray,this.state.result,store.getState());})
+    .catch(e => console.log(e));
+    else 
+    fetch(`${PATH}?page=${page+1}`)
+    .then(res => res.json())
+    .then(result => {this.setState({result: result}); store.dispatch(setNewHomeState(result)); 
+      console.log(resultArray,this.state.result,store.getState());}).catch(e => console.log(e));
+  }
+
   state = {
-    result: [],
+    result: this.fetchData(0), //[],
     searchResult: [],
     inputText: '',
     page: 0,
@@ -15,30 +34,16 @@ class Catalog extends Component {
     const {page} = this.state;
     let {resultArray} = this.props;
     this.fetchData(page, resultArray);
-    //fetch(`${PATH}?page=${page+1}`)
-    //.then(res => res.json())
-    //.then(result => {resultArray = result; this.setState({result: resultArray}); console.log(result);})/*ResultArray.CopyArr(result);
-    //  console.log(ResultArray,ResultArray.ReturnState());
-    //  this.setState({result: ResultArray.ReturnState()})})*/
-    //.catch(e => console.log(e));
-    //this.handleChange();
-  }
-
-  fetchData = (page, resultArray) => {
-    fetch(`${PATH}?page=${page+1}`)
-    .then(res => res.json())
-    .then(result => {resultArray.splice(0,resultArray.length); result.forEach(x=>resultArray.push(x)); this.setState({result: resultArray}); console.log(resultArray,this.state.result);})/*ResultArray.CopyArr(result);
-      console.log(ResultArray,ResultArray.ReturnState());
-      this.setState({result: ResultArray.ReturnState()})})*/
-    .catch(e => console.log(e));
   }
 
   prevPage = () => {
     const {page} = this.state;
-    this.setState({page: page - 1});
-    console.log(page);
-    let {resultArray} = this.props;
-    this.fetchData(page, resultArray);
+    if(page > 0) {
+      this.setState({page: page - 1});
+      console.log(page);
+      let {resultArray} = this.props;
+      this.fetchData(page, resultArray);
+    }
   }
 
   nextPage = () => {
@@ -48,10 +53,6 @@ class Catalog extends Component {
     let {resultArray} = this.props;
     this.fetchData(page, resultArray);
   }
-
- /* componentWillUnmount() {
-    this.setState({searchResult: []});
-  }*/
 
   handleChange = () => {
     this.setState({
@@ -86,15 +87,15 @@ class Catalog extends Component {
     })
     this.setState({searchResult: interArr});
     console.log(searchResult,interArr,inputText);*/
-    const {inputText} = this.state;
-    const { searchResult } = this.state;
-    
+    const {inputText, page} = this.state;
+    const { searchResult, resultArray } = this.state;
+    if(inputText !== '') {
     fetch(`${PATH}?beer_name=${inputText}`)
     .then(res => res.json())
-    .then(result => this.setState({searchResult: result.slice(0)}))/*ResultArray.CopyArr(result);
-      console.log(ResultArray,ResultArray.ReturnState());
-      this.setState({result: ResultArray.ReturnState()})})*/
+    .then(result => {this.setState({searchResult: result.slice(0)}); store.dispatch(setNewHomeState(result)); 
+      console.log(store.getState());})
     .catch(e => console.log(e));
+    } else this.fetchData(page, resultArray);
   }
 
   sortCatalogByName = () => {
@@ -109,6 +110,8 @@ class Catalog extends Component {
       return 0;  
     });
     this.setState({ result });
+    store.dispatch(setNewHomeState(result));
+    console.log(store.getState());
   }
 
   sortCatalogByAbv = () => {
@@ -123,6 +126,8 @@ class Catalog extends Component {
       return 0;  
     });
     this.setState({ result });
+    store.dispatch(setNewHomeState(result));
+    console.log(store.getState());
   }
 
   sortCatalogByIbu = () => {
@@ -137,6 +142,8 @@ class Catalog extends Component {
       return 0;  
     });
     this.setState({ result });
+    store.dispatch(setNewHomeState(result));
+    console.log(store.getState());
   }
 
   inputRef = React.createRef();
@@ -146,7 +153,7 @@ class Catalog extends Component {
     const {basketArray, resultArray, searchArray} = this.props;
     const { searchResult } = this.state;
 
-    if(searchResult.length !== 0) {
+    /*if(searchResult.length !== 0) {
     return (
       <Fragment>
         <br />
@@ -179,14 +186,41 @@ class Catalog extends Component {
           <button onClick={this.prevPage}>Prev</button>
           <button onClick={this.nextPage}>Next</button>
           <ul> 
-            {result.map((el) =>
-              <ListItem inBasket={false} element={el} key={el.id} resultArray={resultArray} searchArray={searchArray} basketArray={basketArray} 
-                id={el.id} name={el.name} description={el.description} abv={el.abv} ibu={el.ibu} image_url={el.image_url} />
+            {result.map((el) => {
+              let checked = false; 
+              store.getState().clickedCheckboxes.forEach((checkbox) => {if(checkbox.id === el.id) checked = true;})
+              return <ListItem Checked={checked} inBasket={false} element={el} key={el.id} resultArray={resultArray} searchArray={searchArray} 
+              basketArray={basketArray} id={el.id} name={el.name} description={el.description} abv={el.abv} 
+              ibu={el.ibu} image_url={el.image_url} /> }
             )}
           </ul>
         </Fragment>
       );
-    }
+    }*/
+
+    return (
+      <Fragment>
+        <br />
+        <button onClick={this.sortCatalogByName}>Sort By name</button>
+        <button onClick={this.sortCatalogByAbv}>Sort By abv</button>
+        <button onClick={this.sortCatalogByIbu}>Sort By ibu</button> <br/>
+        <label>
+          Search by name:<input ref={this.inputRef} onChange={this.handleChange} type="text" />
+        </label>
+        <button onClick={this.handleClick}>SEARCH</button><br/>
+        <button onClick={this.prevPage}>Prev</button>
+        <button onClick={this.nextPage}>Next</button>
+        <ul> 
+          {store.getState().homeState.map((el) => {
+            let checked = false; 
+            store.getState().clickedCheckboxes.forEach((checkbox) => {if(checkbox.id === el.id) checked = true;})
+            return <ListItem Checked={checked} inBasket={false} element={el} key={el.id} resultArray={resultArray} searchArray={searchArray} 
+            basketArray={basketArray} id={el.id} name={el.name} description={el.description} abv={el.abv} 
+            ibu={el.ibu} image_url={el.image_url} /> }
+          )}
+        </ul>
+      </Fragment>
+    );
   }
 }
 

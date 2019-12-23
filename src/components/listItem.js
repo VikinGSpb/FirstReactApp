@@ -1,16 +1,20 @@
 import React, { Component } from 'react';
+import store from '../store';
+import {setNewHomeState, setNewClickedCheckboxes, setNewBasketState, addItemToHomeState, addItemToClickedCheckboxes, 
+  addItemToBasketState, removeItemFromHomeState, removeItemFromClickedCheckboxes, removeItemFromBasketState} 
+  from '../actions/basicActions';
 
 class ListItem extends Component {
   //_isMounted = false;
 
   state = {
-    isChecked: false,
+    isChecked: this.props.Checked,
   }
 
-  componentDidMount() {
+  /*componentDidMount() {
     //this._isMounted = true;
     this.ChangeInput();
-  }
+  }*/
 
 /*  deleteEl = () => {
     const { element } = this.props;
@@ -29,19 +33,24 @@ class ListItem extends Component {
     const { basketArray, resultArray, searchArray } = this.props;
     const { element } = this.props;
     let { isChecked } = this.state;
-    isChecked ? this.setState({isChecked: false}) : this.setState({isChecked: true});
-    if(isChecked) {
+    //isChecked ? this.setState({isChecked: false}) : this.setState({isChecked: true});
+    if(isChecked === false) {
+      this.setState({isChecked: true});
+      store.dispatch(addItemToClickedCheckboxes(element));
       basketArray.push(element);
-      console.log(basketArray);
-    } else {
-      let idx;
-      basketArray.forEach((x, i) => {
+      console.log(basketArray,store.getState());
+    } else if(isChecked === true) {
+      this.setState({isChecked: false});
+      //let idx;
+      //basketArray.forEach((x, i) => {
+      store.getState().clickedCheckboxes.forEach((x, i) => {
         if(x.id === element.id) {
-          idx = i;
+          //idx = i;
+          store.dispatch(removeItemFromClickedCheckboxes(element));
         }
       });
-      basketArray.splice(idx, 1);
-      console.log(basketArray);
+      //basketArray.splice(idx, 1);
+      console.log(basketArray,store.getState());
     }
   }
 
@@ -52,7 +61,10 @@ class ListItem extends Component {
   render() {
     const { inBasket, name, description, abv, ibu, image_url } = this.props;
     const { children } = this.props;
-    if(inBasket === false)
+    const { element } = this.props;
+    let flag = false;
+    store.getState().clickedCheckboxes.forEach((el) => {if(el.id === element.id) flag = true;})
+    if(inBasket === false && flag === false)
       return (
         <li style={{listStyleType: 'none'}}>
           <div style={{width: '100px', height: '200px', background: `url(${image_url}) no-repeat`, backgroundSize: 'contain'}}></div>
@@ -60,7 +72,18 @@ class ListItem extends Component {
           <p>description: {description}</p>
           <p>abv: {abv}</p>
           <p>ibu: {ibu}</p>
-          <input type="checkbox" onChange={this.ChangeInput} />
+          <input type="checkbox" onClick={this.ChangeInput} />
+        </li>
+      );
+    if(inBasket === false && flag === true)
+      return (
+        <li style={{listStyleType: 'none'}}>
+          <div style={{width: '100px', height: '200px', background: `url(${image_url}) no-repeat`, backgroundSize: 'contain'}}></div>
+          <p>name: {name}</p>
+          <p>description: {description}</p>
+          <p>abv: {abv}</p>
+          <p>ibu: {ibu}</p>
+          <input type="checkbox" onChange={this.ChangeInput} checked/>
         </li>
       );
     if(inBasket === true)

@@ -2,20 +2,20 @@ import React, { Component, Fragment } from 'react';
 import BasketButton from './basketButton';
 import ListItem from './listItem';
 
+import store from '../store';
+import {setNewClickedCheckboxes} from '../actions/basicActions';
+
 class Basket extends Component {
   state = {
-    result: [],//this.props.basketArray,
+    result: [],
   }
 
   componentDidMount() {
-    const {basketArray} = this.props;
-    this.setState( {result: basketArray.slice(0)} );
+    this.setState( {result: store.getState().clickedCheckboxes});
   }
 
   deleteItem = (id) => {
-    const {basketArray, resultArray, searchArray} = this.props;
     const {result} = this.state;
-    console.log(resultArray);
     let interArr = result;
     let idx;
     result.forEach((x, i) => {
@@ -23,12 +23,10 @@ class Basket extends Component {
         idx = i;
       }
     });
-    console.log(id,idx,basketArray,interArr,result,this.state.result );
     interArr.splice(idx, 1);
-    this.setState({result: interArr});
-    basketArray.splice(0, basketArray.length);
-    interArr.forEach(x=>basketArray.push(x));
-    console.log(interArr, basketArray, result, this.state.result, basketArray);
+    store.dispatch(setNewClickedCheckboxes(interArr));
+    this.setState( {result: store.getState().clickedCheckboxes});
+    console.log(result, store.getState());
   }
 
   render() {
