@@ -10,7 +10,7 @@ class Pagination extends Component {
         <div style={{display:'inline'}} data-name='3'>3</div>
         <div style={{display:'inline'}} data-name='4'>4</div>
       </div>
-    ); break;
+    );
     case '2': return(
       <div onClick={this.props.onClick}>
         <div style={{display:'inline'}} data-name='1'>1</div>
@@ -18,7 +18,7 @@ class Pagination extends Component {
         <div style={{display:'inline'}} data-name='3'>3</div>
         <div style={{display:'inline'}} data-name='4'>4</div>
       </div>
-    ); break;
+    );
     case '3': return(
       <div onClick={this.props.onClick}>
         <div style={{display:'inline'}} data-name='1'>1</div>
@@ -26,7 +26,7 @@ class Pagination extends Component {
         <div style={{display:'inline'}} className='active' data-name='3'>3</div>
         <div style={{display:'inline'}} data-name='4'>4</div>
       </div>
-    ); break;
+    );
     case '4': return(
       <div onClick={this.props.onClick}>
         <div style={{display:'inline'}} data-name='1'>1</div>
@@ -34,7 +34,7 @@ class Pagination extends Component {
         <div style={{display:'inline'}} data-name='3'>3</div>
         <div style={{display:'inline'}} className='active' data-name='4'>4</div>
       </div>
-    ); break;
+    );
     default: break;
     }
   }

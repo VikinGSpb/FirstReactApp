@@ -3,14 +3,10 @@ import ReactDOM from 'react-dom';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
-import resultArray from './dataArrays/resultArray';
-import searchArray from './dataArrays/searchArray';
-import basketArray from './dataArrays/basketArray';
-
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import Home from './components/home';
-import Basket from './components/basket';
+import Home from './components/home/home';
+import Basket from './components/basket/basket';
 
 import { Provider } from 'react-redux';
 
@@ -21,8 +17,8 @@ ReactDOM.render((
     <BrowserRouter>
       <App>
         <Switch>
-          <Route exact path='/' render={()=><Home resultArray={resultArray} searchArray={searchArray} basketArray={basketArray}/>} />
-          <Route path='/basket' render={()=><Basket basketArray={basketArray}/>} />
+          <Route exact path='/' render={()=><Home />} />
+          <Route path='/basket' render={()=><Basket />} />
         </Switch>
       </App>
     </BrowserRouter>

@@ -1,62 +1,27 @@
 import React, { Component } from 'react';
-import store from '../store';
-import {setNewHomeState, setNewClickedCheckboxes, setNewBasketState, addItemToHomeState, addItemToClickedCheckboxes, 
-  addItemToBasketState, removeItemFromHomeState, removeItemFromClickedCheckboxes, removeItemFromBasketState} 
-  from '../actions/basicActions';
+import store from '../../store';
+import { addItemToClickedCheckboxes, removeItemFromClickedCheckboxes } from '../../actions/basicActions';
 
 class ListItem extends Component {
-  //_isMounted = false;
-
   state = {
     isChecked: this.props.Checked,
   }
 
-  /*componentDidMount() {
-    //this._isMounted = true;
-    this.ChangeInput();
-  }*/
-
-/*  deleteEl = () => {
-    const { element } = this.props;
-    const { basketArray, resultArray, searchArray } = this.props;
-    let idx;
-    basketArray.forEach((x, i) => {
-      if(x.id === element.id) {
-        idx = i;
-      }
-    });
-    basketArray.splice(idx, 1);
-    console.log(basketArray);
-  }*/
-
   ChangeInput = () => {
-    //const { basketArray, resultArray, searchArray } = this.props;
     const { element } = this.props;
     let { isChecked } = this.state;
-    //isChecked ? this.setState({isChecked: false}) : this.setState({isChecked: true});
     if(isChecked === false) {
       this.setState({isChecked: true});
       store.dispatch(addItemToClickedCheckboxes(element));
-      //basketArray.push(element);
-      console.log(store.getState());
     } else if(isChecked === true) {
       this.setState({isChecked: false});
-      //let idx;
-      //basketArray.forEach((x, i) => {
-      store.getState().clickedCheckboxes.forEach((x, i) => {
-        if(x.id === element.id) {
-          //idx = i;
+      store.getState().clickedCheckboxes.forEach((el) => {
+        if(el.id === element.id) {
           store.dispatch(removeItemFromClickedCheckboxes(element));
         }
       });
-      //basketArray.splice(idx, 1);
-      console.log(store.getState());
     }
   }
-
-  /*componentWillUnmount() {
-    this._isMounted = false;
-  }*/
 
   render() {
     const { inBasket, name, description, abv, ibu, image_url } = this.props;
@@ -99,7 +64,5 @@ class ListItem extends Component {
       );
   }
 }
-
-//<button onClick={this.deleteEl}>DELETE</button>
 
 export default ListItem;

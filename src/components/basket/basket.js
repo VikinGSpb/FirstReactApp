@@ -1,9 +1,9 @@
 import React, { Component, Fragment } from 'react';
-import BasketButton from './basketButton';
-import ListItem from './listItem';
+import BasketButton from '../basketButton/basketButton';
+import ListItem from '../listItem/listItem';
 
-import store from '../store';
-import {setNewClickedCheckboxes} from '../actions/basicActions';
+import store from '../../store';
+import {setNewClickedCheckboxes} from '../../actions/basicActions';
 
 class Basket extends Component {
   state = {
@@ -18,9 +18,9 @@ class Basket extends Component {
     const {result} = this.state;
     let interArr = result;
     let idx;
-    result.forEach((x, i) => {
-      if(x.id === id) {
-        idx = i;
+    result.forEach((el, index) => {
+      if(el.id === id) {
+        idx = index;
       }
     });
     interArr.splice(idx, 1);
@@ -31,7 +31,6 @@ class Basket extends Component {
 
   render() {
     const {result} = this.state;
-    const {basketArray, resultArray, searchArray} = this.props;
 
     return (
       <Fragment>
@@ -39,8 +38,8 @@ class Basket extends Component {
         <h1>This is the basket</h1>
         <ul>
           {result.map((el) =>
-            <ListItem inBasket={true} element={el} key={el.id} resultArray={resultArray} searchArray={searchArray} basketArray={basketArray} 
-              id={el.id} name={el.name} description={el.description} abv={el.abv} ibu={el.ibu} image_url={el.image_url}>
+            <ListItem inBasket={true} element={el} key={el.id} id={el.id} name={el.name} 
+              description={el.description} abv={el.abv} ibu={el.ibu} image_url={el.image_url}>
               <button onClick={this.deleteItem.bind(el,el.id)}>DELETE</button>
             </ListItem>
           )}
