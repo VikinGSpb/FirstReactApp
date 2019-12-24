@@ -1,0 +1,28 @@
+.form {
+  position: absolute;
+  left: 70%;
+  padding: 10px;
+  width: 173px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color: blue;
+  background: rgba(0, 255, 0, 0.3);
+}
+
+@media screen and (max-width: 600px) {
+  .form {
+    position: initial;
+  }
+}
+
+.dateInput {
+  width: 97%;
+}
+
+.submitButton {
+  margin-top: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color: rgba(100, 100, 255, 0.7);
+  background: rgba(255, 200, 100, 0.5);
+  cursor: pointer;
+}
+/*# sourceMappingURL=form.css.map */

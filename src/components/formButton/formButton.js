@@ -1,4 +1,6 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component } from 'react';
+
+import './formButton.css';
 
 class FormButton extends Component {
   state = {
@@ -18,11 +20,11 @@ class FormButton extends Component {
     const {renderForm} = this.state;
 
     return(
-      <Fragment>
-        <button onClick={this.handleOnClick}>Registration</button>
-        <button onClick={this.handleOffClick}>X</button>
+      <div className="formContainer">
+        <button className="openForm" onClick={this.handleOnClick}>Registration</button>
         {renderForm ? React.cloneElement(children) : null}
-      </Fragment>
+        {renderForm ? <button className="closeForm" onClick={this.handleOffClick}>X</button> : null}
+      </div>
     );
   }
 }

@@ -4,12 +4,16 @@ import FormButton from '../formButton/formButton';
 import Catalog from '../catalog/catalog';
 import BasketButton from '../basketButton/basketButton';
 
+import './home.css';
+
 class Home extends Component {
   render() {   
     return (
       <Fragment>
-        <FormButton>{<Form />}</FormButton>
-        <BasketButton inBasket={false}/>
+        <header className="homeHeader">
+          <BasketButton inBasket={false}/>
+          <FormButton>{<Form />}</FormButton>
+        </header>
         <Catalog />
       </Fragment>
     );

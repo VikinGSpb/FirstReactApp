@@ -1,0 +1,32 @@
+.formContainer { 
+  display: flex;
+  justify-content: space-between;
+}
+
+.openForm {
+  height: 25px;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color: rgba(100, 100, 255, 0.7);
+
+  background: rgba(255, 200, 100, 0.5);
+
+  cursor: pointer;
+}
+
+.closeForm {
+  position: absolute;
+  left: 80%;
+  height: 25px;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  color: rgba(100, 100, 255, 0.7);
+
+  background: rgba(255, 200, 100, 0.5);
+
+  cursor: pointer;
+
+  @media screen and (max-width: 600px){
+    position: initial;
+  }
+}

@@ -1,0 +1,13 @@
+.link {
+  display: inline-block;
+  margin: 5px 0 0 10px;
+  width: 125px;
+  height: 18px;
+  text-align: center;
+  -webkit-text-decoration-line: none;
+          text-decoration-line: none;
+  border: 1px solid rgba(200, 200, 200, 0.5);
+  color: blue;
+  background: rgba(200, 200, 200, 0.1);
+}
+/*# sourceMappingURL=basketButton.css.map */

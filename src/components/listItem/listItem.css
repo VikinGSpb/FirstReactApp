@@ -1,0 +1,85 @@
+.listItem {
+  display: -ms-grid;
+  display: grid;
+  padding: 0px;
+  margin: 20px 5px 0 -20px;
+  list-style: none;
+  padding: 10px;
+      grid-template-areas: "image name" "image abv" "image ibu" "checkbox desc";
+  -ms-grid-columns: 150px 1fr;
+      grid-template-columns: 150px 1fr;
+  border: 1px solid black;
+}
+
+.imageContainer {
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 3;
+  -ms-grid-column: 1;
+  grid-area: image;
+}
+
+.beerName {
+  -ms-grid-row: 1;
+  -ms-grid-column: 2;
+  grid-area: name;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: start;
+      justify-self: start;
+  padding: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: rgba(100, 100, 100, 0.1);
+}
+
+.beerDesc {
+  -ms-grid-row: 4;
+  -ms-grid-column: 2;
+  grid-area: desc;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: start;
+      justify-self: start;
+  padding: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: rgba(100, 100, 100, 0.1);
+}
+
+.beerAbv {
+  -ms-grid-row: 2;
+  -ms-grid-column: 2;
+  grid-area: abv;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: start;
+      justify-self: start;
+  padding: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: rgba(100, 100, 100, 0.1);
+}
+
+.beerIbu {
+  -ms-grid-row: 3;
+  -ms-grid-column: 2;
+  grid-area: ibu;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+  -ms-grid-column-align: start;
+      justify-self: start;
+  padding: 3px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  background: rgba(100, 100, 100, 0.1);
+}
+
+.beerCheckbox {
+  -ms-grid-row: 4;
+  -ms-grid-column: 1;
+  grid-area: checkbox;
+  width: 20px;
+  height: 20px;
+  margin: 20px 0 0 40px;
+}
+/*# sourceMappingURL=listItem.css.map */

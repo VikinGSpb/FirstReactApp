@@ -1,3 +1,14 @@
+.wrapper {
+  /*background: url(./assets/images/beer.jpg) no-repeat;
+  background-position-x: center;
+  background-size: 10%;*/
+  background: rgba(200, 200, 100, 0.1);
+}
+
+ * {
+  margin: 0;
+}
+
 .App {
   text-align: center;
 }

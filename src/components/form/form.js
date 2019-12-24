@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 
+import './form.css';
+
 const style = {color:'red'};
 
 class Form extends Component {
@@ -51,7 +53,7 @@ class Form extends Component {
   render() {
     return (
       <Fragment>
-        <form>
+        <form className="form">
           <label htmlFor="name">Name:</label>
           <input type="text" id="name" ref={this.inputNameRef} required onChange={this.handleChange}/><br/>
           <label htmlFor="surname">Surname:</label>
@@ -59,12 +61,12 @@ class Form extends Component {
           <label htmlFor="patronymic">Patronymic:</label>
           <input type="text" id="patronymic" ref={this.inputPatronymicRef} required onChange={this.handleChange}/><br/>
           <label htmlFor="date">Date of birth:</label>
-          <input type="date" id="date" ref={this.inputDateRef} required onChange={this.handleChange}/><br/>
+          <input type="date" className="dateInput" id="date" ref={this.inputDateRef} required onChange={this.handleChange}/><br/>
           <label htmlFor="mail">Mail:</label>
           <input type="email" style={this.state.styleMail} id="mail" ref={this.inputMailRef} required onChange={this.handleChange}/><br/>
           <label htmlFor="pass">Password:</label>
           <input type="password" style={this.state.stylePass} id="pass" ref={this.inputPassRef} required onChange={this.handleChange}/><br/>
-          <input type="submit" id="submit" value="Submit" onClick={this.handleSubmit}/>
+          <input type="submit" className="submitButton" id="submit" value="Submit" onClick={this.handleSubmit}/>
         </form>
       </Fragment>
     );

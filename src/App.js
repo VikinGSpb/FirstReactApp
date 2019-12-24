@@ -1,9 +1,11 @@
 import React, { Fragment } from 'react';
 
+import './App.css';
+
 const App = ({children}) => (
-  <Fragment>
+  <div className='wrapper'>
     {children}
-  </Fragment>
+  </div>
 );
 
 export default App;

@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import './basketButton.css';
+
 class BasketButton extends Component {
   render() {
     const {inBasket} = this.props;
     if(!inBasket) {
       return (
-        <Link to='/basket' style={{border: '1px solid black', color:'red'}}>GO TO BASKET</Link>
+        <Link className="link" to='/basket'>GO TO BASKET</Link>
       );
     } else {
       return (
-        <Link to='/' style={{border: '1px solid black', color:'red'}}>EXIT BASKET</Link>
+        <Link className="link" to='/'>EXIT BASKET</Link>
       );
     }
   }

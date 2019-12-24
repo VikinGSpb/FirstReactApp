@@ -1,0 +1,45 @@
+.head {
+  display: inline-block;
+  margin-right: 70vw;
+  color: rgba(57, 180, 41, 0.5);
+  font-size: 30px;
+  -webkit-text-decoration: underline rgba(155, 155, 155, 0.3);
+          text-decoration: underline rgba(155, 155, 155, 0.3);
+}
+
+@media screen and (max-width: 1210px) {
+  .head {
+    margin-right: 60vw;
+  }
+}
+
+@media screen and (max-width: 910px) {
+  .head {
+    margin-right: 50vw;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .head {
+    margin-right: 40vw;
+  }
+}
+
+@media screen and (max-width: 730px) {
+  .head {
+    margin-right: 0;
+  }
+}
+
+.deleteButton {
+  width: 90px;
+  height: 20px;
+  margin: 20px 0 0 10px;
+  background: rgba(155, 155, 155, 0.3);
+  cursor: pointer;
+}
+
+.deleteButton:hover {
+  background: rgba(57, 180, 41, 0.5);
+}
+/*# sourceMappingURL=basket.css.map */

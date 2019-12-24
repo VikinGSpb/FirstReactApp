@@ -5,6 +5,8 @@ import ListItem from '../listItem/listItem';
 import store from '../../store';
 import {setNewClickedCheckboxes} from '../../actions/basicActions';
 
+import './basket.css';
+
 class Basket extends Component {
   state = {
     result: [],
@@ -34,13 +36,13 @@ class Basket extends Component {
 
     return (
       <Fragment>
+        <div className="head">This is the basket</div>
         <BasketButton inBasket={true}/>
-        <h1>This is the basket</h1>
         <ul>
           {result.map((el) =>
             <ListItem inBasket={true} element={el} key={el.id} id={el.id} name={el.name} 
               description={el.description} abv={el.abv} ibu={el.ibu} image_url={el.image_url}>
-              <button onClick={this.deleteItem.bind(el,el.id)}>DELETE</button>
+              <button className="deleteButton" onClick={this.deleteItem.bind(el,el.id)}>DELETE</button>
             </ListItem>
           )}
         </ul>

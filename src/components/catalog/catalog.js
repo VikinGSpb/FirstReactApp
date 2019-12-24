@@ -144,16 +144,18 @@ class Catalog extends Component {
     return (
       <Fragment>
         <br />
-        <button onClick={this.sortCatalogByName}>Sort By name</button>
-        <button onClick={this.sortCatalogByAbv}>Sort By abv</button>
-        <button onClick={this.sortCatalogByIbu}>Sort By ibu</button> <br/>
-        <label>
-          Search by name:<input ref={this.inputRef} onChange={this.handleChange} type="text" />
+        <button className="sortButton" onClick={this.sortCatalogByName}>Sort By name</button>
+        <button className="sortButton" onClick={this.sortCatalogByAbv}>Sort By abv</button>
+        <button className="sortButton" onClick={this.sortCatalogByIbu}>Sort By ibu</button> <br/>
+        <label className="inputLabel">
+          <input placeholder="name" className="searchInput" ref={this.inputRef} onChange={this.handleChange} type="text" />
         </label>
-        <button onClick={this.handleClick}>SEARCH</button><br/>
-        <button onClick={this.prevPage}>Prev</button>
-        <Pagination active={`${active}`} ref={this.pages} onClick={this.clickPages} />
-        <button onClick={this.nextPage}>Next</button>
+        <button className="inputButton" onClick={this.handleClick}>SEARCH</button><br/>
+        <div className="pagContainer">
+          <button className="pageButton" onClick={this.prevPage}>&lt;&lt;</button>
+          <Pagination active={`${active}`} ref={this.pages} onClick={this.clickPages} />
+          <button className="pageButton" onClick={this.nextPage}>&gt;&gt;</button>
+        </div>
         <ul> 
           {store.getState().homeState.map((el) => {
             let checked = false; 

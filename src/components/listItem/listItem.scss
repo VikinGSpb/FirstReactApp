@@ -1,0 +1,77 @@
+.listItem {
+  display: grid;
+  padding: 0px;
+  margin: 20px 5px 0 -20px;
+  list-style: none;
+  padding: 10px;
+
+  grid-template-areas: 
+    "image name"
+    "image abv"
+    "image ibu"
+    "checkbox desc";
+
+  grid-template-columns: 150px 1fr;
+
+  border: 1px solid black;
+}
+
+.imageContainer {
+  grid-area: image;
+}
+
+.beerName {
+  grid-area: name;
+
+  align-self: center;
+  justify-self: start;
+  padding: 3px;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+
+  background: rgba(100, 100, 100, 0.1);
+}
+
+.beerDesc {
+  grid-area: desc;
+
+  align-self: center;
+  justify-self: start;
+  padding: 3px;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+
+  background: rgba(100, 100, 100, 0.1);
+}
+
+.beerAbv {
+  grid-area: abv;
+
+  align-self: center;
+  justify-self: start;
+  padding: 3px;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+
+  background: rgba(100, 100, 100, 0.1);
+}
+
+.beerIbu {
+  grid-area: ibu;
+
+  align-self: center;
+  justify-self: start;
+  padding: 3px;
+
+  border: 1px solid rgba(0, 0, 0, 0.3);
+
+  background: rgba(100, 100, 100, 0.1);
+}
+
+.beerCheckbox {
+  grid-area: checkbox;
+
+  width: 20px;
+  height: 20px;
+  margin: 20px 0 0 40px;
+}
